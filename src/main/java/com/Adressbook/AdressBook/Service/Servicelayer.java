@@ -1,28 +1,48 @@
 package com.Adressbook.AdressBook.Service;
 
-import com.Adressbook.AdressBook.Model.AdressEntity;
+import com.Adressbook.AdressBook.Model.AddressEntity;
+import com.Adressbook.AdressBook.Repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
-
+import java.util.Optional;
+@Service
 public class Servicelayer {
-    private final List<AdressEntity>adressEntities=new ArrayList<>();
-    public ResponseEntity<AdressEntity> addaddress(AdressEntity adressEntity){
-        adressEntities.add(adressEntity);
+    @Autowired
+    AddressRepository addressRepository;
+
+    public ResponseEntity<AddressEntity> addAddress(AddressEntity adressEntity){
+
+        addressRepository.save(adressEntity);
         return ResponseEntity.ok().body(adressEntity);
     }
-    public ResponseEntity<List<AdressEntity>>getAdressEntities(){
-        return ResponseEntity.ok().body(adressEntities);
+    public ResponseEntity<List<AddressEntity>>getAddressEntities(){
+
+
+        return ResponseEntity.ok().body(addressRepository.findAll());
     }
-    public ResponseEntity<List<AdressEntity>>updateAddress(int id,AdressEntity adressEntity){
-        adressEntities.set(id,adressEntity);
-        return ResponseEntity.ok().body(adressEntities);
+    public AddressEntity updateAddress(Long id,AddressEntity addressEntity){
+        Optional<AddressEntity>exist=addressRepository.findById(id);
+        if(exist.isPresent()){
+            AddressEntity add=exist.get();
+            add.setName(add.getName());
+            add.setAddress(add.getAddress());
+            return addressRepository.save(add);
+        }
+        return null;
+
+
 
     }
-    public ResponseEntity<String>deleteAddress(int id){
-        adressEntities.remove(id);
+    public Optional<AddressEntity>getAddressById(Long id){
+        return addressRepository.findById(id);
+    }
+    public ResponseEntity<String>deleteAddress(Long id){
+
+        addressRepository.deleteById(id);
         return ResponseEntity.ok().body("Sucssesfully delted");
     }
 

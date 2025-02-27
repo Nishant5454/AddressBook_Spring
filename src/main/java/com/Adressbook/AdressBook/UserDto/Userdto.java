@@ -1,14 +1,12 @@
 package com.Adressbook.AdressBook.UserDto;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Userdto {
-    int id;
+    Long id;
     private String name;
     private String address;
-    Userdto(int id,String name,String address){
+    Userdto(Long id,String name,String address){
         this.id=id;
         this.name=name;
         this.address=address;

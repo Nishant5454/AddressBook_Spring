@@ -1,52 +1,45 @@
 package com.Adressbook.AdressBook.Controller;
 
+import com.Adressbook.AdressBook.Model.AddressEntity;
+import com.Adressbook.AdressBook.Service.Servicelayer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
-@RequestMapping("/adress/api")
+@RequestMapping("/address/api")
 public class ControllerClass {
-    private final List<Map<String,String>>finallist=new ArrayList<>();
+
+    @Autowired
+    private Servicelayer servicelayer;
+
     @PostMapping
-    public ResponseEntity<Map<String,String>>addcontact(@RequestBody Map<String,String>contact){
-        finallist.add(contact);
-        return ResponseEntity.ok().body(contact);// RESPONSE ENTITY
-
-
-
+    public ResponseEntity<String> addAddress(@RequestBody AddressEntity addressEntity) {
+        servicelayer.addAddress(addressEntity);
+        return ResponseEntity.ok("Success");
     }
+
     @GetMapping("/get")
-    public ResponseEntity<List<Map<String,String>>>getallcontact(){
-        return ResponseEntity.ok().body(finallist);
-    }
-    @GetMapping("/get/{index}")
-    public ResponseEntity<Map<String,String>>getcontactviaIndex(@RequestParam int index){
-        return ResponseEntity.ok().body(finallist.get(index));
-    }//a
-
-    @PutMapping("/put")
-    public ResponseEntity<Map<String,String>>updateAdress(@RequestBody Map<String,String>updated){
-        String name=updated.get("name");
-        String address=updated.get("address");
-        Map<String,String>response=new HashMap<>();
-        response.put("name",name);
-        response.put("address",address);
-        finallist.add(response);
-        return ResponseEntity.ok().body(response);
-
-    }
-    @DeleteMapping("/delete")
-    public ResponseEntity<String>delete(@RequestBody String name){
-        finallist.remove(name);
-        return ResponseEntity.ok().body("Deleted");
-
-
+    public ResponseEntity<List<AddressEntity>> getAllContacts() {
+        return ResponseEntity.ok(servicelayer.getAddressEntities().getBody());
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Optional<AddressEntity>> getContactById(@PathVariable Long id) {
+        return ResponseEntity.ok(servicelayer.getAddressById(id));
+    }
 
+    @PutMapping("/put/{id}")
+    public ResponseEntity<AddressEntity> updateAddress(@PathVariable Long id, @RequestBody Map<String, String> updated) {
+        AddressEntity updatedAddress = servicelayer.updateAddress(id, (AddressEntity) updated);
+        return ResponseEntity.ok(updatedAddress);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        servicelayer.deleteAddress(id);
+        return ResponseEntity.ok("Deleted successfully");
+    }
 }
