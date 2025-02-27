@@ -27,7 +27,7 @@ public class ControllerClass {
     @GetMapping("/get/{index}")
     public ResponseEntity<Map<String,String>>getcontactviaIndex(@RequestParam int index){
         return ResponseEntity.ok().body(finallist.get(index));
-    }
+    }//a
 
     @PutMapping("/put")
     public ResponseEntity<Map<String,String>>updateAdress(@RequestBody Map<String,String>updated){
