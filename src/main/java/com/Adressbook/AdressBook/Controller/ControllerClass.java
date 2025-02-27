@@ -15,7 +15,7 @@ public class ControllerClass {
     @PostMapping
     public ResponseEntity<Map<String,String>>addcontact(@RequestBody Map<String,String>contact){
         finallist.add(contact);
-        return ResponseEntity.ok().body(contact);
+        return ResponseEntity.ok().body(contact);// RESPONSE ENTITY
 
 
 
