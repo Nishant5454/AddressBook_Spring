@@ -30,6 +30,10 @@ public class Servicelayer {
             AddressEntity add=exist.get();
             add.setName(add.getName());
             add.setAddress(add.getAddress());
+            add.setCity(add.getCity());
+            add.setState(add.getState());
+            add.setPhone(add.getPhone());
+            add.setZipcode(add.getZipcode());
             return addressRepository.save(add);
         }
         return null;
@@ -39,7 +43,7 @@ public class Servicelayer {
     }
     public Optional<AddressEntity>getAddressById(Long id){
         return addressRepository.findById(id);
-    }
+    }// Get the Address By Id
     public ResponseEntity<String>deleteAddress(Long id){
 
         addressRepository.deleteById(id);

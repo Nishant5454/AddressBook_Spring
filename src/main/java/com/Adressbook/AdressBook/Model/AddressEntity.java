@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Table(name = "ADDRESS")
@@ -19,4 +20,9 @@ public class AddressEntity {
     Long id;
     String name;
     String address;
+    String City;
+    String state;
+    int zipcode;
+    String Phone;
+
 }

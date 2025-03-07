@@ -15,7 +15,7 @@ public class ControllerClass {
     @Autowired
     private Servicelayer servicelayer;
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<String> addAddress(@RequestBody AddressEntity addressEntity) {
         servicelayer.addAddress(addressEntity);
         return ResponseEntity.ok("Success");
@@ -31,10 +31,17 @@ public class ControllerClass {
         return ResponseEntity.ok(servicelayer.getAddressById(id));
     }
 
-    @PutMapping("/put/{id}")
-    public ResponseEntity<AddressEntity> updateAddress(@PathVariable Long id, @RequestBody Map<String, String> updated) {
-        AddressEntity updatedAddress = servicelayer.updateAddress(id, (AddressEntity) updated);
-        return ResponseEntity.ok(updatedAddress);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<String> updateAddress(@PathVariable Long id, @RequestBody AddressEntity updatedAddress) {
+       Optional< AddressEntity> existingAddress=servicelayer.getAddressById(id);
+       if(existingAddress==null) {
+           ResponseEntity.ok().body("Name not Found in the Database by this Id");
+
+       }
+       servicelayer.updateAddress(id,updatedAddress);
+       return ResponseEntity.ok().body("Address Sucsessfully Updated");
+
+
     }
 
     @DeleteMapping("/delete/{id}")

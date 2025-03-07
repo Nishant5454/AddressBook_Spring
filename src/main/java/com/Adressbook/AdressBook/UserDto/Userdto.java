@@ -1,27 +1,20 @@
 package com.Adressbook.AdressBook.UserDto;
 
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Userdto {
     Long id;
     private String name;
     private String address;
-    Userdto(Long id,String name,String address){
-        this.id=id;
-        this.name=name;
-        this.address=address;
-    }
-    public ResponseEntity<String>getname(){
-        return ResponseEntity.ok().body(name);
-    }
-    public ResponseEntity<String>getaddress(){
-        return ResponseEntity.ok().body(address);
-    }
-    public void setName(String name){
-        this.name=name;
-
-    }
-    public void setAddress(String address){
-        this.address=address;
-    }
+    private String City;
+    private String phone;
+    private String state;
+    private int zipcode;
 }
